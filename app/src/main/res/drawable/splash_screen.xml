@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item android:drawable="@drawable/splash_screen_gradient"/>
+
+    <item android:drawable="@drawable/ic_baseline_school_24"
+        android:gravity="center"
+        android:height="80dp"
+        android:width="80dp"/>
+</layer-list>
