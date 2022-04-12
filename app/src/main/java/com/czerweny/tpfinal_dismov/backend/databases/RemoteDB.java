@@ -37,7 +37,6 @@ public class RemoteDB {
     private static final String filesNode = "Files";
     private static final String commentsNode = "Reviews";
 
-
     /**-------------------------------------------------**/
     /**---                   USERS                   ---**/
     /**-------------------------------------------------**/
