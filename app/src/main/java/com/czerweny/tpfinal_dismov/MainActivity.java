@@ -44,17 +44,26 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity {
 
     static private final int AUTH_ACTIVITY = 42;
+    public static final String FROM_NOTIFICATION = "FROM_NOTIFICATION";
 
     ActivityMainBinding binding;
     FirebaseAuth mAuth;
     FirebaseUser firebaseUser;
     UserViewModel userViewModel;
 
+    boolean fromNotification = false;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         setTheme(R.style.Theme_TPFinal_Dismov);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        Bundle bundle = getIntent().getExtras();
+        if (bundle != null) {
+            // this.fromNotification = bundle.getBoolean(FROM_NOTIFICATION);
+            this.fromNotification = true;
+        };
 
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
@@ -181,6 +190,8 @@ public class MainActivity extends AppCompatActivity {
         tabs.getTabAt(2).setIcon(R.drawable.ic_baseline_newspaper_24);
         tabs.getTabAt(3).setIcon(R.drawable.ic_baseline_location_on_24);
         tabs.getTabAt(4).setIcon(R.drawable.ic_baseline_notifications_24);
+
+        if (this.fromNotification) tabs.selectTab(tabs.getTabAt(4));
 
         FloatingActionButton fab = binding.fab;
         fab.setOnClickListener(new View.OnClickListener() {

@@ -12,6 +12,7 @@
         android:theme="@style/Theme.TPFinal_Dismov"
         android:usesCleartextTraffic="true">
 
+        <!-- /////////////  NOTIFICATION SERVICE SECTION ///////////// -->
         <service
             android:name=".backend.fcm.MyFirebaseMessagingService"
             android:enabled="true"
@@ -20,12 +21,26 @@
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
         </service>
+        <!-- Default notification icon -->
         <meta-data
             android:name="com.google.firebase.messaging.default_notification_icon"
             android:resource="@drawable/ic_baseline_notifications_24" />
+        <!-- Default notification color -->
         <meta-data
             android:name="com.google.firebase.messaging.default_notification_color"
-            android:resource="@color/purple_200" />
+            android:resource="@color/colorAccent" />
+
+        <activity
+            android:name=".ui.activities.NotificationRelayActivity"
+            android:exported="true"
+            android:parentActivityName=".MainActivity"
+            android:screenOrientation="portrait">
+            <intent-filter>
+                <action android:name="NOTIFICATION_RELAY"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+            </intent-filter>
+        </activity>
+        <!-- ///////////////////////////////////////////////////////// -->
 
         <activity
             android:name=".ui.activities.CourseDetailsActivity"
@@ -59,7 +74,6 @@
             android:theme="@style/Theme.SplashScreen">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
