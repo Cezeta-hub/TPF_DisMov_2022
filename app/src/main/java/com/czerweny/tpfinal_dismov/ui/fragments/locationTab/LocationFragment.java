@@ -1,5 +1,6 @@
 package com.czerweny.tpfinal_dismov.ui.fragments.locationTab;
 
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -7,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
+import androidx.annotation.RequiresApi;
 import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -35,6 +37,8 @@ public class LocationFragment extends Fragment {
 
     private RecyclerView recyclerView;
 
+    String qrLink = null;
+
     public LocationFragment() { }
 
     public static LocationFragment newInstance() {
@@ -44,10 +48,16 @@ public class LocationFragment extends Fragment {
         return fragment;
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) { }
+        if (getArguments() != null) {
+            this.qrLink = getArguments().getString("qrLink");
+            if (this.qrLink != null) {
+                locationDisplay.accept(this.qrLink);
+            }
+        }
     }
 
     @Override

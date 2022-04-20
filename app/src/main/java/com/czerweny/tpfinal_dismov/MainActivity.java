@@ -7,12 +7,14 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.viewpager.widget.ViewPager;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Switch;
+import android.widget.Toast;
 
 import com.czerweny.tpfinal_dismov.backend.models.User;
 import com.czerweny.tpfinal_dismov.backend.repositories.UserRepository;
@@ -52,6 +54,7 @@ public class MainActivity extends AppCompatActivity {
     UserViewModel userViewModel;
 
     boolean fromNotification = false;
+    String qrLink = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,10 +63,15 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         Bundle bundle = getIntent().getExtras();
+
         if (bundle != null) {
             // this.fromNotification = bundle.getBoolean(FROM_NOTIFICATION);
             this.fromNotification = true;
         };
+        if (getIntent().getDataString() != null) {
+            Uri qrLink = Uri.parse(getIntent().getDataString());
+            this.qrLink = qrLink.getQueryParameter("classroom");
+        }
 
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
@@ -192,6 +200,12 @@ public class MainActivity extends AppCompatActivity {
         tabs.getTabAt(4).setIcon(R.drawable.ic_baseline_notifications_24);
 
         if (this.fromNotification) tabs.selectTab(tabs.getTabAt(4));
+        if (this.qrLink != null) {
+            Bundle args = new Bundle();
+            args.putString("qrLink",this.qrLink);
+            tabs.selectTab(tabs.getTabAt(3));
+            pagerAdapter.getItem(3).setArguments(args);
+        }
 
         FloatingActionButton fab = binding.fab;
         fab.setOnClickListener(new View.OnClickListener() {
