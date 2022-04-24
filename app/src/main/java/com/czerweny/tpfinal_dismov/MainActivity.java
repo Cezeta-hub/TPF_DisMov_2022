@@ -133,7 +133,6 @@ public class MainActivity extends AppCompatActivity {
                 .build();
         startActivityForResult(signInIntent, AUTH_ACTIVITY);
     }
-
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);

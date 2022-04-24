@@ -40,7 +40,6 @@
             app:layout_constraintEnd_toEndOf="@id/tv_dialogArticle_section"/>
     </LinearLayout>
 
-
     <TextView
         android:id="@+id/tv_dialogArticle_headline"
         android:layout_width="match_parent"
@@ -65,7 +64,15 @@
         android:text="Copete"
         android:textSize="12sp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tv_dialogArticle_headline"
-        app:layout_constraintEnd_toEndOf="parent"/>
+        app:layout_constraintTop_toBottomOf="@id/tv_dialogArticle_headline" />
+
+    <ImageView
+        android:id="@+id/iv_dialogArticle_image"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="18dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_dialogArticle_drophead" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

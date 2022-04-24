@@ -60,6 +60,12 @@ dependencies {
     implementation 'com.squareup.retrofit2:retrofit:2.9.0'
     implementation 'com.squareup.retrofit2:converter-gson:2.9.0'
 
+    // Picasso library, to consume load images from URLs
+    implementation 'com.squareup.picasso:picasso:2.71828'
+
     implementation 'com.firebaseui:firebase-ui-auth:7.2.0'
     implementation 'com.facebook.android:facebook-android-sdk:12.1.0' // https://goo.gl/Ce5L94
+
+    // ZXing for QRCode reader
+    implementation 'me.dm7.barcodescanner:zxing:1.9'
 }
