@@ -16,7 +16,9 @@ import android.view.View;
 import android.widget.Switch;
 import android.widget.Toast;
 
+import com.czerweny.tpfinal_dismov.backend.models.Notification;
 import com.czerweny.tpfinal_dismov.backend.models.User;
+import com.czerweny.tpfinal_dismov.backend.repositories.NotificationsRepository;
 import com.czerweny.tpfinal_dismov.backend.repositories.UserRepository;
 import com.czerweny.tpfinal_dismov.backend.viewModels.UserViewModel;
 import com.czerweny.tpfinal_dismov.databinding.ActivityMainBinding;
@@ -41,6 +43,7 @@ import com.google.firebase.messaging.FirebaseMessaging;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
@@ -65,8 +68,31 @@ public class MainActivity extends AppCompatActivity {
         Bundle bundle = getIntent().getExtras();
 
         if (bundle != null) {
-            // this.fromNotification = bundle.getBoolean(FROM_NOTIFICATION);
-            this.fromNotification = true;
+            /*
+                google.delivered_priority => high;
+                google.sent_time => 1651712730327;
+                google.ttl => 2419200;
+                google.original_priority => high;
+                google.message_id => 0:1651713022764813%26d3b14f26d3b14f;
+                gcm.n.analytics_data => Bundle[mParcelledData.dataSize=404];
+                from => 135620529032;
+                body => Oh no!;
+                title => Notificación importante!!;
+                click_action => NOTIFICATION_RELAY;
+                collapse_key => com.czerweny.tpfinal_dismov;
+            */
+            if (bundle.getString("click_action").equals("NOTIFICATION_RELAY")) {
+                // this.fromNotification = bundle.getBoolean(FROM_NOTIFICATION);
+                Notification noti = new Notification(
+                        "0",
+                        bundle.getString("title"),
+                        new Date().toString(),
+                        bundle.getString("body")
+                );
+                NotificationsRepository.saveNotication(noti);
+                this.fromNotification = true;
+            }
+
         };
         if (getIntent().getDataString() != null) {
             Uri qrLink = Uri.parse(getIntent().getDataString());
