@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="com.czerweny.tpfinal_dismov">
+    <uses-permission android:name="android.permission.CAMERA" />
 
     <application
         android:name=".MyApplication"
@@ -10,8 +12,10 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.TPFinal_Dismov"
-        android:usesCleartextTraffic="true">
+        android:usesCleartextTraffic="true"
+        tools:targetApi="m">
 
+        <!-- /////////////  NOTIFICATION SERVICE SECTION ///////////// -->
         <service
             android:name=".backend.fcm.MyFirebaseMessagingService"
             android:enabled="true"
@@ -19,17 +23,37 @@
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
-        </service>
+        </service> <!-- Default notification icon -->
         <meta-data
             android:name="com.google.firebase.messaging.default_notification_icon"
-            android:resource="@drawable/ic_baseline_notifications_24" />
+            android:resource="@drawable/ic_baseline_notifications_24" /> <!-- Default notification color -->
         <meta-data
             android:name="com.google.firebase.messaging.default_notification_color"
-            android:resource="@color/purple_200" />
+            android:resource="@color/colorAccent" />
+
+        <activity
+            android:name=".ui.activities.NotificationRelayActivity"
+            android:exported="true"
+            android:parentActivityName=".MainActivity"
+            android:screenOrientation="portrait">
+            <intent-filter>
+                <action android:name="NOTIFICATION_RELAY" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+        <!-- ///////////////////////////////////////////////////////// -->
+
+        <activity
+            android:name=".ui.activities.QRScannerActivity"
+            android:exported="true"
+            android:parentActivityName=".MainActivity"
+            android:screenOrientation="portrait" />
+
 
         <activity
             android:name=".ui.activities.CourseDetailsActivity"
-            android:exported="true"
+            android:exported="false"
             android:parentActivityName=".MainActivity"
             android:screenOrientation="portrait" />
         <activity
@@ -49,7 +73,7 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".ui.activities.UserProfileActivity"
-            android:exported="true"
+            android:exported="false"
             android:parentActivityName=".MainActivity"
             android:screenOrientation="portrait" />
         <activity
@@ -61,6 +85,14 @@
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data android:scheme="bedelia-movil" />
             </intent-filter>
         </activity>
     </application>

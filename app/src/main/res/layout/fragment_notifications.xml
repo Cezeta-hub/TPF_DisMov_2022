@@ -6,6 +6,36 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".ui.fragments.locationTab.LocationFragment">
 
+    <LinearLayout
+        android:id="@+id/ll_notifications_header"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginBottom="0dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:id="@+id/tv_notifications_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="18dp"
+            android:layout_weight="1"
+            android:text="Notificaciones"
+            android:textSize="25sp"/>
+
+        <ImageButton
+            android:id="@+id/btn_notifications_refresh"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_margin="10dp"
+            android:layout_marginTop="5dp"
+            android:src="@drawable/ic_baseline_refresh_24" />
+    </LinearLayout>
+
+<!--
     <TextView
         android:id="@+id/tv_notifications_title"
         android:layout_width="match_parent"
@@ -15,7 +45,7 @@
         android:textSize="25sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent" /> -->
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_notificacions_list"
@@ -23,7 +53,7 @@
         android:layout_height="0dp"
         android:layout_marginTop="18dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tv_notifications_title"
+        app:layout_constraintTop_toBottomOf="@id/ll_notifications_header"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"/>
 
@@ -35,7 +65,7 @@
         android:layout_marginTop="18dp"
         android:paddingBottom="125dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tv_notifications_title"
+        app:layout_constraintTop_toBottomOf="@id/ll_notifications_header"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintBottom_toBottomOf="parent" >
 

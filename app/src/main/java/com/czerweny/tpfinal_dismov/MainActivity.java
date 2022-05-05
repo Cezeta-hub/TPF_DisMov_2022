@@ -7,14 +7,18 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.viewpager.widget.ViewPager;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Switch;
+import android.widget.Toast;
 
+import com.czerweny.tpfinal_dismov.backend.models.Notification;
 import com.czerweny.tpfinal_dismov.backend.models.User;
+import com.czerweny.tpfinal_dismov.backend.repositories.NotificationsRepository;
 import com.czerweny.tpfinal_dismov.backend.repositories.UserRepository;
 import com.czerweny.tpfinal_dismov.backend.viewModels.UserViewModel;
 import com.czerweny.tpfinal_dismov.databinding.ActivityMainBinding;
@@ -39,22 +43,61 @@ import com.google.firebase.messaging.FirebaseMessaging;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
     static private final int AUTH_ACTIVITY = 42;
+    public static final String FROM_NOTIFICATION = "FROM_NOTIFICATION";
 
     ActivityMainBinding binding;
     FirebaseAuth mAuth;
     FirebaseUser firebaseUser;
     UserViewModel userViewModel;
 
+    boolean fromNotification = false;
+    String qrLink = null;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         setTheme(R.style.Theme_TPFinal_Dismov);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        Bundle bundle = getIntent().getExtras();
+
+        if (bundle != null) {
+            /*
+                google.delivered_priority => high;
+                google.sent_time => 1651712730327;
+                google.ttl => 2419200;
+                google.original_priority => high;
+                google.message_id => 0:1651713022764813%26d3b14f26d3b14f;
+                gcm.n.analytics_data => Bundle[mParcelledData.dataSize=404];
+                from => 135620529032;
+                body => Oh no!;
+                title => Notificación importante!!;
+                click_action => NOTIFICATION_RELAY;
+                collapse_key => com.czerweny.tpfinal_dismov;
+            */
+            if (bundle.getString("click_action").equals("NOTIFICATION_RELAY")) {
+                // this.fromNotification = bundle.getBoolean(FROM_NOTIFICATION);
+                Notification noti = new Notification(
+                        "0",
+                        bundle.getString("title"),
+                        new Date().toString(),
+                        bundle.getString("body")
+                );
+                NotificationsRepository.saveNotication(noti);
+                this.fromNotification = true;
+            }
+
+        };
+        if (getIntent().getDataString() != null) {
+            Uri qrLink = Uri.parse(getIntent().getDataString());
+            this.qrLink = qrLink.getQueryParameter("classroom");
+        }
 
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
@@ -116,7 +159,6 @@ public class MainActivity extends AppCompatActivity {
                 .build();
         startActivityForResult(signInIntent, AUTH_ACTIVITY);
     }
-
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -181,6 +223,14 @@ public class MainActivity extends AppCompatActivity {
         tabs.getTabAt(2).setIcon(R.drawable.ic_baseline_newspaper_24);
         tabs.getTabAt(3).setIcon(R.drawable.ic_baseline_location_on_24);
         tabs.getTabAt(4).setIcon(R.drawable.ic_baseline_notifications_24);
+
+        if (this.fromNotification) tabs.selectTab(tabs.getTabAt(4));
+        if (this.qrLink != null) {
+            Bundle args = new Bundle();
+            args.putString("qrLink",this.qrLink);
+            tabs.selectTab(tabs.getTabAt(3));
+            pagerAdapter.getItem(3).setArguments(args);
+        }
 
         FloatingActionButton fab = binding.fab;
         fab.setOnClickListener(new View.OnClickListener() {

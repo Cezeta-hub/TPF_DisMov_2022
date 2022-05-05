@@ -3,6 +3,7 @@ package com.czerweny.tpfinal_dismov.ui.activities;
 import static com.czerweny.tpfinal_dismov.Utils.zipLiveData;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.DialogFragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -10,11 +11,13 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
+import com.czerweny.tpfinal_dismov.backend.models.Comment;
 import com.czerweny.tpfinal_dismov.backend.models.Course;
 import com.czerweny.tpfinal_dismov.backend.models.File;
 import com.czerweny.tpfinal_dismov.backend.models.User;
@@ -24,6 +27,7 @@ import com.czerweny.tpfinal_dismov.databinding.ActivityFilesBinding;
 import com.czerweny.tpfinal_dismov.ui.adapters.FilesListAdapter;
 import com.czerweny.tpfinal_dismov.ui.fragments.courseTab.AddFileDialogFragment;
 
+import java.util.Comparator;
 import java.util.function.Consumer;
 
 public class FilesActivity extends AppCompatActivity implements AddFileDialogFragment.AddFileDialogListener {
@@ -35,6 +39,7 @@ public class FilesActivity extends AppCompatActivity implements AddFileDialogFra
     private User user;
     private Course course;
 
+    @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -76,6 +81,7 @@ public class FilesActivity extends AppCompatActivity implements AddFileDialogFra
         finish();
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.N)
     private void updateView() {
         binding.tvFilesCourse.setText(course.getName());
 
@@ -84,6 +90,7 @@ public class FilesActivity extends AppCompatActivity implements AddFileDialogFra
         filesList.setLayoutManager(new LinearLayoutManager(this));
 
         CourseRepository.getCourseFiles(course.getName()).observe(this, files -> {
+            files.sort(Comparator.comparing(File::getTitle));
             FilesListAdapter filesListAdapter = new FilesListAdapter(files, accessFileLink);
             filesList.setAdapter(filesListAdapter);
 

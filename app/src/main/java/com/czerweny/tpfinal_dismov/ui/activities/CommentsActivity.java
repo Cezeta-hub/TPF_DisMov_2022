@@ -3,6 +3,7 @@ package com.czerweny.tpfinal_dismov.ui.activities;
 import static com.czerweny.tpfinal_dismov.Utils.zipLiveData;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.DialogFragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -10,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
@@ -24,6 +26,8 @@ import com.czerweny.tpfinal_dismov.databinding.ActivityCommentsBinding;
 import com.czerweny.tpfinal_dismov.ui.adapters.CommentsListAdapter;
 import com.czerweny.tpfinal_dismov.ui.fragments.courseTab.AddCommentDialogFragment;
 
+import java.util.Comparator;
+
 public class CommentsActivity extends AppCompatActivity implements AddCommentDialogFragment.AddCommentDialogListener {
     public static final String COURSE_ID = "COURSE_ID";
     public static final String USER_ID = "USER_ID";
@@ -32,6 +36,7 @@ public class CommentsActivity extends AppCompatActivity implements AddCommentDia
     private User user;
     private Course course;
 
+    @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -59,6 +64,7 @@ public class CommentsActivity extends AppCompatActivity implements AddCommentDia
         });
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.N)
     @SuppressLint("SetTextI18n")
     private void updateView() {
         binding.tvCommentsCourse.setText(course.getName());
@@ -68,6 +74,7 @@ public class CommentsActivity extends AppCompatActivity implements AddCommentDia
         commentsList.setLayoutManager(new LinearLayoutManager(this));
 
         CourseRepository.getCourseComments(course.getName()).observe(this, comments -> {
+            comments.sort(Comparator.comparing(Comment::getAuthor));
             CommentsListAdapter commentsListAdapter = new CommentsListAdapter(comments);
             commentsList.setAdapter(commentsListAdapter);
 

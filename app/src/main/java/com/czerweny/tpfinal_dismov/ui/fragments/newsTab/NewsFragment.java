@@ -86,7 +86,11 @@ public class NewsFragment extends Fragment {
                             String volanta = noticiasUNLResponse.getNews().get(0).getVolanta();
                             String copete = noticiasUNLResponse.getNews().get(0).getCopete();
 
-                            Article article = new Article(id,titulo,fechaHora,volanta,copete);
+                            String imagePath = noticiasUNLResponse.getNews().get(0).getMediafile().size() != 0 ?
+                                               noticiasUNLResponse.getNews().get(0).getMediafile().get(0).getPath() :
+                                               null;
+
+                            Article article = new Article(id,titulo,fechaHora,volanta,copete,imagePath);
 
                             articles.add(article);
                         }
@@ -117,6 +121,7 @@ public class NewsFragment extends Fragment {
         args.putString(ArticleDialogFragment.ARTICLE_DATETIME, article.getDateTime());
         args.putString(ArticleDialogFragment.ARTICLE_SECTION, article.getSection());
         args.putString(ArticleDialogFragment.ARTICLE_DROPHEAD, article.getDrophead());
+        args.putString(ArticleDialogFragment.ARTICLE_IMAGEPATH, article.getImagePath());
 
         DialogFragment dialog = new ArticleDialogFragment();
         dialog.setArguments(args);

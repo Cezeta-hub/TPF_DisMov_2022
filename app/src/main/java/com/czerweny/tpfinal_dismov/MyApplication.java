@@ -62,7 +62,7 @@ public class MyApplication  extends Application {
         for (Location location : locations) {
             LocationsRepository.saveLocation(location);
         }
-
+    /*
         List<Notification> notifications = new ArrayList<>();
 
         notifications.add(new Notification("0", "Notification 1", new Date().toString(),"This is a test notification."));
@@ -74,5 +74,6 @@ public class MyApplication  extends Application {
         for (Notification notification : notifications) {
             NotificationsRepository.saveNotication(notification);
         }
+    */
     }
 }
